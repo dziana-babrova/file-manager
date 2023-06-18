@@ -1,4 +1,4 @@
-import { goUp, goTo } from '../navigation/navigation.js';
+import { goUp, goTo, list } from '../navigation/navigation.js';
 
 const parseInput = async (input) => {
   try {
@@ -12,7 +12,7 @@ const parseInput = async (input) => {
         await goTo(inputAsArray.slice(1));
         break;
       case 'ls':
-        console.log(command);
+        await list();
         break;
       case 'cat':
         console.log(command);
