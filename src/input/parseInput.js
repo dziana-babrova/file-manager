@@ -1,8 +1,10 @@
+import { goUp } from '../navigation/navigation.js';
+
 const parseInput = (input) => {
   const command = input.split(' ')[0];
   switch (command) {
     case 'up':
-      console.log(command);
+      goUp();
       break;
     case 'cd':
       console.log(command);

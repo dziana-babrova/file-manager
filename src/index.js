@@ -2,7 +2,7 @@ import { createInterface } from 'node:readline';
 import { stdin as input, stdout as output, argv, cwd } from 'process';
 import { getUsername } from './general/username.js';
 import { parseInput } from './input/parseInput.js';
-import { displayCurrentDirectory } from './navigation/currentDirectory.js';
+import { displayCurrentDirectory } from './navigation/navigation.js';
 
 const App = () => {
   try {
