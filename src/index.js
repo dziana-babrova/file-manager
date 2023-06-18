@@ -4,18 +4,18 @@ import { getUsername } from './general/username.js';
 import { parseInput } from './input/parseInput.js';
 import { displayCurrentDirectory } from './navigation/navigation.js';
 
-const App = () => {
+const App = async () => {
   try {
     const rl = createInterface({ input, output });
     let name = getUsername(argv.slice(2));
     output.write(`Welcome to the File Manager, ${name}!\n`);
     displayCurrentDirectory();
 
-    rl.on('line', (input) => {
+    rl.on('line', async (input) => {
       try {
         if (input === '.exit') rl.close()
         else {
-          parseInput(input);
+          await parseInput(input);
         };
       } catch (e) {
         console.error(e.message);
@@ -31,4 +31,4 @@ const App = () => {
   }
 };
 
-App();
+await App();
