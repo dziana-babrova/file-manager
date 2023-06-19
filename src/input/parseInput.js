@@ -1,3 +1,4 @@
+import { createEmptyFile } from '../fs/create.js';
 import { readFile } from '../fs/read.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 
@@ -20,7 +21,7 @@ const parseInput = async (input) => {
         await readFile(args)
         break;
       case 'add':
-        console.log(command);
+        await createEmptyFile(args);
         break;
       case 'rn':
         console.log(command);
