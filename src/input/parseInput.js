@@ -1,5 +1,6 @@
 import { createEmptyFile } from '../fs/create.js';
 import { readFile } from '../fs/read.js';
+import { renameFile } from '../fs/rename.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 
 const parseInput = async (input) => {
@@ -24,7 +25,7 @@ const parseInput = async (input) => {
         await createEmptyFile(args);
         break;
       case 'rn':
-        console.log(command);
+        await renameFile(args);
         break;
       case 'cp':
         console.log(command);
