@@ -5,8 +5,8 @@ import { parseInput } from './input/parseInput.js';
 import { displayCurrentDirectory } from './navigation/navigation.js';
 
 const App = async () => {
+  const rl = createInterface({ input, output });
   try {
-    const rl = createInterface({ input, output });
     let name = getUsername(argv.slice(2));
     output.write(`Welcome to the File Manager, ${name}!\n`);
     displayCurrentDirectory();
@@ -28,6 +28,7 @@ const App = async () => {
     });
   } catch (e) {
     console.error(e.message);
+    rl.close();
   }
 };
 

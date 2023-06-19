@@ -1,6 +1,7 @@
 import { chdir, cwd } from 'process';
 import path, { isAbsolute } from 'path';
 import { access, readdir, stat } from 'fs/promises';
+import { getAbsolutePath } from '../general/absolutePath.js';
 
 const displayCurrentDirectory = () => {
   const currentDirectory = cwd();
@@ -15,12 +16,9 @@ const goUp = () => {
 
 const goTo = async (input) => {
   if (input.length) {
-    const currentDirectory = cwd();
     const destination = input[0];
-    const absoluteDestination = isAbsolute(destination)
-      ? destination
-      : path.join(currentDirectory, destination);
-    console.log(absoluteDestination);
+    const absoluteDestination = getAbsolutePath(destination);
+
     try {
       await access(absoluteDestination);
     } catch {

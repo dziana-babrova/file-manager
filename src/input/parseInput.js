@@ -1,21 +1,23 @@
+import { readFile } from '../fs/read.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 
 const parseInput = async (input) => {
   try {
-  const inputAsArray = input.split(' ');
-  const command = inputAsArray[0];
+    const inputAsArray = input.split(' ');
+    const command = inputAsArray[0];
+    const args = inputAsArray.slice(1);
     switch (command) {
       case 'up':
         goUp();
         break;
       case 'cd':
-        await goTo(inputAsArray.slice(1));
+        await goTo(args);
         break;
       case 'ls':
         await list();
         break;
       case 'cat':
-        console.log(command);
+        await readFile(args)
         break;
       case 'add':
         console.log(command);
