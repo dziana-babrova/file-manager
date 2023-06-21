@@ -1,5 +1,6 @@
 import { copyFile } from '../fs/copy.js';
 import { createEmptyFile } from '../fs/create.js';
+import { moveFile } from '../fs/move.js';
 import { readFile } from '../fs/read.js';
 import { renameFile } from '../fs/rename.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
@@ -32,7 +33,7 @@ const parseInput = async (input) => {
         await copyFile(args);
         break;
       case 'mv':
-        console.log(command);
+        await moveFile(args);
         break;
       case 'rm':
         console.log(command);
