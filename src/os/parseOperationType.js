@@ -1,3 +1,4 @@
+import { getCpusInfo } from './operations/cpus.js';
 import { getEOL } from './operations/eol.js';
 
 const parseOsOperation = async (args) => {
@@ -6,20 +7,13 @@ const parseOsOperation = async (args) => {
     case '--EOL':
       getEOL();
       break;
-  }
-  switch (type) {
     case '--cpus':
+      getCpusInfo();
       break;
-  }
-  switch (type) {
     case '--homedir':
       break;
-  }
-  switch (type) {
     case '--username':
       break;
-  }
-  switch (type) {
     case '--architecture':
       break;
     default:

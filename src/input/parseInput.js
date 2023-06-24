@@ -5,6 +5,7 @@ import { readFile } from '../fs/read.js';
 import { removeFile } from '../fs/remove.js';
 import { renameFile } from '../fs/rename.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
+import { parseOsOperation } from '../os/parseOperationType.js';
 
 const parseInput = async (input) => {
   try {
@@ -40,7 +41,7 @@ const parseInput = async (input) => {
         await removeFile(args);
         break;
       case 'os':
-        console.log(command);
+        await parseOsOperation(args);
         break;
       case 'hash':
         console.log(command);
