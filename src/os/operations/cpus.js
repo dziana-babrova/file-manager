@@ -14,6 +14,4 @@ const getCpusInfo = () => {
   console.log(result);
 };
 
-getCpusInfo();
-
 export { getCpusInfo };
