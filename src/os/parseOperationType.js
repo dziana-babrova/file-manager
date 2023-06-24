@@ -1,6 +1,7 @@
 import { getCpusInfo } from './operations/cpus.js';
 import { getEOL } from './operations/eol.js';
 import { getHomedir } from './operations/homedir.js';
+import { getUsername } from './operations/username.js';
 
 const parseOsOperation = async (args) => {
   const type = args[0];
@@ -15,6 +16,7 @@ const parseOsOperation = async (args) => {
       getHomedir();
       break;
     case '--username':
+      getUsername();
       break;
     case '--architecture':
       break;
