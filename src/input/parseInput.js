@@ -7,6 +7,7 @@ import { renameFile } from '../fs/rename.js';
 import { calculateHash } from '../hash/hash.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 import { parseOsOperation } from '../os/parseOperationType.js';
+import { compress } from '../zip/compress.js';
 
 const parseInput = async (input) => {
   try {
@@ -48,7 +49,7 @@ const parseInput = async (input) => {
         await calculateHash(args);
         break;
       case 'compress':
-        console.log(command);
+        await compress(args);
         break;
       case 'decompress':
         console.log(command);
