@@ -4,6 +4,7 @@ import { moveFile } from '../fs/move.js';
 import { readFile } from '../fs/read.js';
 import { removeFile } from '../fs/remove.js';
 import { renameFile } from '../fs/rename.js';
+import { calculateHash } from '../hash/hash.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 import { parseOsOperation } from '../os/parseOperationType.js';
 
@@ -44,7 +45,7 @@ const parseInput = async (input) => {
         await parseOsOperation(args);
         break;
       case 'hash':
-        console.log(command);
+        await calculateHash(args);
         break;
       case 'compress':
         console.log(command);
