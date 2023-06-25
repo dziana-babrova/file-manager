@@ -1,5 +1,5 @@
 import { chdir, cwd } from 'process';
-import path, { isAbsolute } from 'path';
+import path from 'path';
 import { access, readdir, stat } from 'fs/promises';
 import { getAbsolutePath } from '../general/absolutePath.js';
 

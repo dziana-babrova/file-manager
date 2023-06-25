@@ -2,8 +2,7 @@ import { getAbsolutePath } from '../general/absolutePath.js';
 import { access } from 'fs/promises';
 import path, { basename } from 'path';
 import { createWriteStream, createReadStream } from 'fs';
-import { brotliDecompress, createBrotliCompress } from 'zlib';
-import { Transform } from 'stream';
+import { createBrotliCompress } from 'zlib';
 import { pipeline } from 'node:stream/promises';
 
 const compress = async (args) => {
@@ -16,7 +15,7 @@ const compress = async (args) => {
 
     try {
       await access(absoluteOldPathName);
-      await access(path.resolve(absoluteNewPathName));
+      await access(absoluteNewPathName);
     } catch {
       throw new Error('Error: Operation failed. The arguments are not valid paths');
     }

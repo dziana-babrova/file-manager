@@ -26,12 +26,13 @@ const App = async () => {
         displayCurrentDirectory();
       }
     })
+
     rl.on('close', () => {
       output.write(`Thank you for using File Manager, ${name}, goodbye!\n`);
     });
   } catch (e) {
     console.error(e.message);
-    rl.close();
+    // rl.close();
   }
 };
 

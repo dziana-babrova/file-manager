@@ -4,7 +4,7 @@ const getUsername = (argv) => {
     const paramName = '--username=';
     if (param.startsWith(paramName)) return param.replace(paramName, '');
   } catch {
-    return 'Anonymous'
+    return 'Anonymous';
   }
 };
 

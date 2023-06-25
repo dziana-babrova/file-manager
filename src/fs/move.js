@@ -14,7 +14,7 @@ const moveFile = async (args) => {
 
     try {
       await access(absoluteOldPathName);
-      await access(path.resolve(absoluteNewPathName));
+      await access(absoluteNewPathName);
     } catch {
       throw new Error('Error: Operation failed. The arguments are not valid paths');
     }
