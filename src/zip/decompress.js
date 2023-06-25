@@ -2,11 +2,11 @@ import { getAbsolutePath } from '../general/absolutePath.js';
 import { access } from 'fs/promises';
 import path, { basename } from 'path';
 import { createWriteStream, createReadStream } from 'fs';
-import { brotliDecompress, createBrotliCompress } from 'zlib';
+import { createBrotliDecompress, brotliCompress } from 'zlib';
 import { Transform } from 'stream';
 import { pipeline } from 'node:stream/promises';
 
-const compress = async (args) => {
+const decompress = async (args) => {
   if (args.length >= 2) {
     const oldPathName = args[0];
     const newPathName = args[1];
@@ -22,10 +22,10 @@ const compress = async (args) => {
     }
 
     try {
-      const zip = createBrotliCompress();
+      const unzip = createBrotliDecompress();
       const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.join(absoluteNewPathName, `${fileName}.br`));
-      await pipeline(readableStream, zip, writableStream);
+      const writableStream = createWriteStream(path.join(absoluteNewPathName, `${fileName.replace('.br', '')}`));
+      await pipeline(readableStream, unzip, writableStream);
     } catch {
       throw new Error('Error: Operation failed');
     }
@@ -34,4 +34,4 @@ const compress = async (args) => {
   }
 };
 
-export { compress };
+export { decompress };

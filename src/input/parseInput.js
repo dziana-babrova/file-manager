@@ -8,6 +8,7 @@ import { calculateHash } from '../hash/hash.js';
 import { goUp, goTo, list } from '../navigation/navigation.js';
 import { parseOsOperation } from '../os/parseOperationType.js';
 import { compress } from '../zip/compress.js';
+import { decompress } from '../zip/decompress.js';
 
 const parseInput = async (input) => {
   try {
@@ -52,7 +53,7 @@ const parseInput = async (input) => {
         await compress(args);
         break;
       case 'decompress':
-        console.log(command);
+        await decompress(args);
         break;
       default:
         throw new Error(`Error: Invalid input. Command doesn't exist`);
