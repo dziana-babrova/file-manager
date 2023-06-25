@@ -6,7 +6,7 @@ const getAbsolutePath = (destination) => {
   const currentDirectory = cwd();
   const absoluteDestination = isAbsolute(destination)
     ? destination
-    : path.join(currentDirectory, destination);
+    : path.resolve(currentDirectory, destination);
   return absoluteDestination;
 };
 

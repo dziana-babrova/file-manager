@@ -7,7 +7,7 @@ const renameFile = async (args) => {
     const pathName = args[0];
     const absolutePathName = getAbsolutePath(pathName);
     const newName = args[1];
-    const newAbsolutePathName = path.join(absolutePathName, '../', newName);
+    const newAbsolutePathName = path.resolve(absolutePathName, '../', newName);
 
     try {
       await access(absolutePathName);

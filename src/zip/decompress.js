@@ -16,7 +16,7 @@ const decompress = async (args) => {
 
     try {
       await access(absoluteOldPathName);
-      await access(path.join(absoluteNewPathName));
+      await access(path.resolve(absoluteNewPathName));
     } catch {
       throw new Error('Error: Operation failed. The arguments are not valid paths');
     }
@@ -24,7 +24,7 @@ const decompress = async (args) => {
     try {
       const unzip = createBrotliDecompress();
       const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.join(absoluteNewPathName, `${fileName.replace('.br', '')}`));
+      const writableStream = createWriteStream(path.resolve(absoluteNewPathName, `${fileName.replace('.br', '')}`));
       await pipeline(readableStream, unzip, writableStream);
     } catch {
       throw new Error('Error: Operation failed');

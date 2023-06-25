@@ -6,7 +6,7 @@ const createEmptyFile = async (args) => {
   if (args.length) {
     try {
       const fileName = args[0];
-      const absolutePath = path.join(cwd(), fileName);
+      const absolutePath = path.resolve(cwd(), fileName);
 
       await open(absolutePath, 'wx');
     } catch {

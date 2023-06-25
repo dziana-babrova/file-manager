@@ -16,7 +16,7 @@ const compress = async (args) => {
 
     try {
       await access(absoluteOldPathName);
-      await access(path.join(absoluteNewPathName));
+      await access(path.resolve(absoluteNewPathName));
     } catch {
       throw new Error('Error: Operation failed. The arguments are not valid paths');
     }
@@ -24,7 +24,7 @@ const compress = async (args) => {
     try {
       const zip = createBrotliCompress();
       const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.join(absoluteNewPathName, `${fileName}.br`));
+      const writableStream = createWriteStream(path.resolve(absoluteNewPathName, `${fileName}.br`));
       await pipeline(readableStream, zip, writableStream);
     } catch {
       throw new Error('Error: Operation failed');

@@ -14,14 +14,14 @@ const moveFile = async (args) => {
 
     try {
       await access(absoluteOldPathName);
-      await access(path.join(absoluteNewPathName));
+      await access(path.resolve(absoluteNewPathName));
     } catch {
       throw new Error('Error: Operation failed. The arguments are not valid paths');
     }
 
     try {
       const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.join(absoluteNewPathName, fileName));
+      const writableStream = createWriteStream(path.resolve(absoluteNewPathName, fileName));
       writableStream.on('close', async () => {
         await rm(absoluteOldPathName);
       })

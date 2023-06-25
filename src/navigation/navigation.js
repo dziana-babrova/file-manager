@@ -10,7 +10,7 @@ const displayCurrentDirectory = () => {
 
 const goUp = () => {
   const currentDirectory = cwd();
-  const destinationDirectory = path.join(currentDirectory, '../');
+  const destinationDirectory = path.resolve(currentDirectory, '../');
   chdir(destinationDirectory);
 }
 
@@ -39,7 +39,7 @@ const list = async () => {
     const currentDirectory = cwd();
     const files = await readdir(currentDirectory);
     const table = files.map(async (file) => {
-      const stats = await stat(path.join(currentDirectory, file));
+      const stats = await stat(path.resolve(currentDirectory, file));
       const type = stats.isDirectory() ? 'Directory' : 'File';
       return {
         Name: file,
