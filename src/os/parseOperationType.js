@@ -1,3 +1,4 @@
+import { getArchitecture } from './operations/architecture.js';
 import { getCpusInfo } from './operations/cpus.js';
 import { getEOL } from './operations/eol.js';
 import { getHomedir } from './operations/homedir.js';
@@ -19,6 +20,7 @@ const parseOsOperation = async (args) => {
       getUsername();
       break;
     case '--architecture':
+      getArchitecture();
       break;
     default:
       throw new Error('Error: Invalid input. Unknown os operation');
