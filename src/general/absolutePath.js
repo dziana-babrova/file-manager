@@ -5,7 +5,7 @@ import path from 'path';
 const getAbsolutePath = (destination) => {
   const currentDirectory = cwd();
   const absoluteDestination = isAbsolute(destination)
-    ? destination
+    ? path.resolve(destination)
     : path.resolve(currentDirectory, destination);
   return absoluteDestination;
 };

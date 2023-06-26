@@ -1,20 +1,15 @@
-import { open } from 'fs/promises';
+import { writeFile } from 'fs/promises';
 import path from 'path';
 import { cwd } from 'process';
+import { handleErrors } from '../general/handleErrors.js';
 
 const createEmptyFile = async (args) => {
-  if (args.length) {
-    try {
-      const fileName = args[0];
-      const absolutePath = path.resolve(cwd(), fileName);
-
-      await open(absolutePath, 'wx');
-    } catch {
-      throw new Error('Error: Operation failed');
-    }
-  } else {
-    throw new Error('Error: Invalid input. Filename is not provided');
+  const performOperation = async () => {
+    const fileName = args[0];
+    const absolutePath = path.resolve(cwd(), fileName);
+    await writeFile(absolutePath, '', { flag: 'wx' });
   }
+  await handleErrors(args, 1, performOperation);
 }
 
 export { createEmptyFile };

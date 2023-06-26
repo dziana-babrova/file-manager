@@ -1,28 +1,17 @@
-import { getAbsolutePath } from '../general/absolutePath.js';
-import { access, rename } from 'fs/promises';
+import { rename } from 'fs/promises';
 import path from 'path';
+import { getPathArgs } from '../general/pathArgs.js';
+import { handleErrors } from '../general/handleErrors.js';
 
 const renameFile = async (args) => {
-  if (args.length >= 2) {
-    const pathName = args[0];
-    const absolutePathName = getAbsolutePath(pathName);
+  const performOperation = async () => {
+    const [source] = await getPathArgs(args.slice(0, 1));
     const newName = args[1];
-    const newAbsolutePathName = path.resolve(absolutePathName, '../', newName);
-
-    try {
-      await access(absolutePathName);
-    } catch {
-      throw new Error('Error: Operation failed. The first argument is not a valid path');
-    }
-
-    try {
-      rename(absolutePathName, newAbsolutePathName);
-    } catch {
-      throw new Error('Error: Operation failed');
-    }
-  } else {
-    throw new Error('Error: Invalid input. Path to file and new name should be provided');
+    const newAbsolutePathName = path.resolve(source, '../', newName);
+    rename(source, newAbsolutePathName);
   }
+
+  await handleErrors(args, 2, performOperation);
 };
 
 export { renameFile };

@@ -1,36 +1,22 @@
-import { getAbsolutePath } from '../general/absolutePath.js';
-import { access } from 'fs/promises';
 import path, { basename } from 'path';
 import { createWriteStream, createReadStream } from 'fs';
 import { createBrotliCompress } from 'zlib';
 import { pipeline } from 'node:stream/promises';
+import { getPathArgs } from '../general/pathArgs.js';
+import { handleErrors } from '../general/handleErrors.js';
 
 const compress = async (args) => {
-  if (args.length >= 2) {
-    const oldPathName = args[0];
-    const newPathName = args[1];
-    const absoluteOldPathName = getAbsolutePath(oldPathName);
-    const absoluteNewPathName = getAbsolutePath(newPathName);
-    const fileName = basename(absoluteOldPathName);
-
-    try {
-      await access(absoluteOldPathName);
-      await access(absoluteNewPathName);
-    } catch {
-      throw new Error('Error: Operation failed. The arguments are not valid paths');
-    }
-
-    try {
-      const zip = createBrotliCompress();
-      const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.resolve(absoluteNewPathName, `${fileName}.br`));
-      await pipeline(readableStream, zip, writableStream);
-    } catch {
-      throw new Error('Error: Operation failed');
-    }
-  } else {
-    throw new Error('Error: Invalid input. Path to file and new path to file should be provided');
+  const performOperation = async () => {
+    const [source, destination] = await getPathArgs(args.slice(0, 2));
+    const fileName = basename(source);
+    const destinationWithFilename = path.resolve(destination, `${fileName}.br`);
+    const zip = createBrotliCompress();
+    const readableStream = createReadStream(source);
+    const writableStream = createWriteStream(destinationWithFilename);
+    await pipeline(readableStream, zip, writableStream);
   }
+
+  await handleErrors(args, 2, performOperation);
 };
 
 export { compress };

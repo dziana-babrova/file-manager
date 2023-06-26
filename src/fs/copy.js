@@ -1,36 +1,20 @@
-import { getAbsolutePath } from '../general/absolutePath.js';
-import path, { basename } from 'path';
 import { createReadStream, createWriteStream } from 'fs';
 import { pipeline } from 'stream/promises';
-import { access } from 'fs/promises';
+import { getPathArgs } from '../general/pathArgs.js';
+import { handleErrors } from '../general/handleErrors.js';
+import path, { basename } from 'path';
 
-const copyFile = async(args) => {
-  if (args.length >= 2) {
-    const oldPathName = args[0];
-    const newPathName = args[1];
-    const absoluteOldPathName = getAbsolutePath(oldPathName);
-    const absoluteNewPathName = getAbsolutePath(newPathName);
-    const fileName = basename(absoluteOldPathName);
+const copyFile = async (args) => {
+  const performOperation = async () => {
+    const [source, destination] = await getPathArgs(args.slice(0, 2));
+    const fileName = basename(source);
+    const destinationWithFilename = path.resolve(destination, fileName);
+    const readableStream = createReadStream(source);
+    const writableStream = createWriteStream(destinationWithFilename);
+    await pipeline(readableStream, writableStream);
+  };
 
-    try {
-      await access(absoluteOldPathName);
-      await access(absoluteNewPathName);
-    } catch {
-      throw new Error('Error: Operation failed. The arguments are not valid paths');
-    }
-
-    try {
-      const readableStream = createReadStream(absoluteOldPathName);
-      const writableStream = createWriteStream(path.resolve(absoluteNewPathName, fileName));
-      await pipeline(readableStream, writableStream);
-    } catch {
-      throw new Error('Error: Operation failed');
-    }
-
-  } else {
-    throw new Error('Error: Invalid input. Path to file and new path to file should be provided');
-  }
-
+  await handleErrors(args, 2, performOperation);
 };
 
 export { copyFile };

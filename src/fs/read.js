@@ -1,30 +1,20 @@
-import { access } from 'fs/promises';
 import { createReadStream } from 'fs';
-import { getAbsolutePath } from '../general/absolutePath.js';
 import { stdout } from 'process';
+import { getPathArgs } from '../general/pathArgs.js';
+import { handleErrors } from '../general/handleErrors.js';
+import { EOL } from 'os';
 
 const readFile = async (args) => {
-  if (args.length) {
-    const destination = args[0];
-    const absoluteDestination = getAbsolutePath(destination);
-
-    try {
-      await access(absoluteDestination);
-    } catch {
-      throw new Error('Error: Operation failed. The argument is not a valid path');
-    }
-    try {
-      const stream = createReadStream(absoluteDestination);
-      stream.on('close', () => {
-        stdout.write('\n');
-      })
-      stream.pipe(stdout);
-    } catch {
-      throw new Error('Error: Operation failed');
-    }
-  } else {
-    throw new Error('Error: Invalid input. Destination path is not provided');
+  const performOperation = async () => {
+    const [source] = await getPathArgs(args.slice(0, 1));
+    const stream = createReadStream(source);
+    stream.on('close', () => {
+      stdout.write(EOL);
+    });
+    stream.pipe(stdout);
   }
+
+  await handleErrors(args, 1, performOperation);
 };
 
 export { readFile };

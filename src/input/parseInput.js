@@ -5,17 +5,26 @@ import { readFile } from '../fs/read.js';
 import { removeFile } from '../fs/remove.js';
 import { renameFile } from '../fs/rename.js';
 import { calculateHash } from '../hash/hash.js';
-import { goUp, goTo, list } from '../navigation/navigation.js';
+import { goTo } from '../navigation/navigate.js';
+import { goUp } from '../navigation/up.js';
+import { list } from '../navigation/list.js';
 import { parseOsOperation } from '../os/parseOperationType.js';
 import { compress } from '../zip/compress.js';
 import { decompress } from '../zip/decompress.js';
 
 const parseInput = async (input) => {
+  const regex = /(['"`][^'"`]+['"`]|\S+)/g;
+  const command = [];
+
+  let match;
+  while ((match = regex.exec(input)) !== null) {
+    command.push(match[1].replace(/^['"`]|['"`]$/g, ''));
+  }
+
   try {
-    const inputAsArray = input.split(' ');
-    const command = inputAsArray[0];
-    const args = inputAsArray.slice(1);
-    switch (command) {
+    const type = command[0];
+    const args = command.slice(1);
+    switch (type) {
       case 'up':
         goUp();
         break;
@@ -26,7 +35,7 @@ const parseInput = async (input) => {
         await list();
         break;
       case 'cat':
-        await readFile(args)
+        await readFile(args);
         break;
       case 'add':
         await createEmptyFile(args);
@@ -58,7 +67,7 @@ const parseInput = async (input) => {
       default:
         throw new Error(`Error: Invalid input. Command doesn't exist`);
     }
-  } catch(e) {
+  } catch (e) {
     console.error(e.message);
   }
 };
